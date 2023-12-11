@@ -73,3 +73,5 @@ ENV CARGO_FFMPEG_SYS_DISABLE_SIZE_T_IS_USIZE    1
 ENV CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER   ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android33-clang
 
 WORKDIR /app
+
+ENTRYPOINT ["/bin/bash"]
