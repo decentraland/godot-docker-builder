@@ -16,12 +16,13 @@ RUN apt-get install -y \
 ## Other deps
 RUN apt-get -y install \
         xvfb libasound2-dev libudev-dev \
-        clang curl pkg-config \
+        clang curl pkg-config libavcodec-dev libavformat-dev libavutil-dev libavfilter-dev libavdevice-dev \
         libssl-dev libx11-dev libgl1-mesa-dev libxext-dev gnupg wget unzip git build-essential \
         autoconf texinfo gcc-multilib
 
 ## Cargo + Rust
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup target add aarch64-linux-android
 
@@ -61,16 +62,6 @@ RUN git clone --branch v6.0.LTS https://github.com/arthenica/ffmpeg-kit /opt/ffm
 RUN ./android.sh --disable-arm-v7a --disable-arm-v7a-neon --disable-x86 --disable-x86-64
 # FULL: RUN ./android.sh --full --disable-arm-v7a --disable-arm-v7a-neon --disable-x86 --disable-x86-64 --disable-lib-openssl --disable-lib-libass
 ENV FFMPEG_DIR /opt/ffmpeg-kit/prebuilt/android-arm64/ffmpeg
-
-# Envs
-ENV TARGET_CC   ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android33-clang
-ENV TARGET_CXX  ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android33-clang++
-ENV TARGET_AR   ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar
-
-ENV RUSTY_V8_MIRROR https://github.com/leanmendoza/rusty_v8/releases/download
-
-ENV CARGO_FFMPEG_SYS_DISABLE_SIZE_T_IS_USIZE    1
-ENV CARGO_TARGET_AARCH64_LINUX_ANDROID_LINKER   ${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android33-clang
 
 WORKDIR /app
 
