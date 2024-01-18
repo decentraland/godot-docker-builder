@@ -25,6 +25,7 @@ RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup target add aarch64-linux-android
+RUN rustup target add x86_64-linux-android
 
 ## Clean apt cache
 RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
