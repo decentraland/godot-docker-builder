@@ -3,6 +3,10 @@ FROM ubuntu:22.04
 ARG SDK_VERSION=30.0.2
 ARG NDK_VERSION=25.2.9519653
 
+# JAVA ENV
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
 # Godot dependencies
 
 ## Add i386 arch and update
@@ -32,6 +36,8 @@ ENV ANDROID_SDK       ${ANDROID_HOME}
 ENV ANDROID_NDK_HOME  ${ANDROID_HOME}/ndk/${NDK_VERSION}
 ENV ANDROID_NDK_ROOT  ${ANDROID_NDK_HOME}
 ENV ANDROID_NDK       ${ANDROID_NDK_HOME}
+
+
 
 RUN groupadd android && useradd -d /opt/android-sdk-linux -g android android
 
