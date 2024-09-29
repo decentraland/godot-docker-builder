@@ -3,7 +3,6 @@ name: build-upload-docker-hub
 on:
   push:
     branches:
-    - 'main'
 
 jobs:
   docker:
