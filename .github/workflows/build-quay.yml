@@ -1,4 +1,4 @@
-name: ci
+name: build-upload quay
 
 on:
   push:
