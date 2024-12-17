@@ -26,12 +26,34 @@ jobs:
           ${{ inputs.build-args }}
           COMMIT_HASH=${{ github.sha }}
 
+    - name: Build Docker Image with Rust
+      id: build-image-rust
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: dcl-godot-android-builder-rust
+        tags: ${{ github.sha }} ${{ inputs.docker-tag }}
+        dockerfiles: |
+          ./godot-android-with-rust.Dockerfile
+        build-args: |
+          ${{ inputs.build-args }}
+          COMMIT_HASH=${{ github.sha }}
+
     - name: Push To quay.io
       id: push-to-quay
       uses: redhat-actions/push-to-registry@v2
       with:
         image: ${{ steps.build-image.outputs.image }}
         tags: ${{ steps.build-image.outputs.tags }}
+        registry: quay.io/decentraland
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_TOKEN }}
+
+    - name: Push To quay.io with Rust
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image-rust.outputs.image }}
+        tags: ${{ steps.build-image-rust.outputs.tags }}
         registry: quay.io/decentraland
         username: ${{ secrets.QUAY_USERNAME }}
         password: ${{ secrets.QUAY_TOKEN }}
