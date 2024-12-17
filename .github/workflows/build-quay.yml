@@ -49,7 +49,7 @@ jobs:
         password: ${{ secrets.QUAY_TOKEN }}
 
     - name: Push To quay.io with Rust
-      id: push-to-quay
+      id: push-to-quay-rust
       uses: redhat-actions/push-to-registry@v2
       with:
         image: ${{ steps.build-image-rust.outputs.image }}
@@ -59,4 +59,4 @@ jobs:
         password: ${{ secrets.QUAY_TOKEN }}
 
     - name: Print image url
-      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
+      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }} and ${{ steps.push-to-quay-rust.outputs.registry-paths }}"
