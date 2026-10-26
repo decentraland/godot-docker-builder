@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 # CHECK: Duplicated info in tools/android-env.sh
 # Android Tooling Versions
 ENV ANDROID_SDK_VERSION=35.0.2
@@ -27,7 +27,7 @@ RUN dpkg --add-architecture i386 \
 
 ## Android Deps
 RUN apt-get install -y \
-    expect openjdk-17-jdk libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+    expect openjdk-17-jdk libc6:i386 libgcc1:i386 libncurses6:i386 libstdc++6:i386 zlib1g:i386
 
 ## Other deps
 RUN apt-get -y install \
