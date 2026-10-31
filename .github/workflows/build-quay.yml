@@ -4,6 +4,10 @@ on:
   push:
     branches:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   docker:
     runs-on: bigrunner
@@ -57,6 +61,26 @@ jobs:
         registry: quay.io/decentraland
         username: ${{ secrets.QUAY_USERNAME }}
         password: ${{ secrets.QUAY_TOKEN }}
+
+    # ghcr.io is on GitHub's network: the 5 GB image pulls in ~1 min from a GitHub-hosted runner
+    # (godot-explorer's Android CI), vs ~5 min from quay.io.
+    - name: Push To ghcr.io
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: ghcr.io/decentraland
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push To ghcr.io with Rust
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image-rust.outputs.image }}
+        tags: ${{ steps.build-image-rust.outputs.tags }}
+        registry: ghcr.io/decentraland
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Print image url
       run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }} and ${{ steps.push-to-quay-rust.outputs.registry-paths }}"
