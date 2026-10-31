@@ -3,6 +3,7 @@ name: build-upload quay
 on:
   push:
     branches:
+      - main
 
 permissions:
   contents: read
